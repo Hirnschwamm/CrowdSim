@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.CrowdSim.CSharp", "UnityVS.CrowdSim.CSharp.csproj", "{655B35A7-9535-B297-A90E-7B936AA0700E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{655B35A7-9535-B297-A90E-7B936AA0700E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{655B35A7-9535-B297-A90E-7B936AA0700E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{655B35A7-9535-B297-A90E-7B936AA0700E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{655B35A7-9535-B297-A90E-7B936AA0700E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
