@@ -56,6 +56,7 @@ public abstract class Obstacle : MonoBehaviour {
 
     protected abstract Vector2 computeTangentialVelocity();
 
+    //Function to collect all points of vision for a walker. In the paper those were collected via synthetic vision
     protected List<Rigidbody2D> getP() {
         List<Rigidbody2D> p = new List<Rigidbody2D>();
         Vector2 orientation = transform.up;
@@ -121,7 +122,7 @@ public abstract class Obstacle : MonoBehaviour {
         Vector2 vRel = vO - v;
         Vector2 vConv = Vector2.Dot(vRel, k) * k;
         Vector2 vOrth = vRel - vConv;
-        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime;
+        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime; //Paper deviation: "* Time.deltaTime" (integration) instead of "* (Time.deltaTime ^ -1)"(derivative) 
         return alphaDerivative;
     }
 
@@ -133,7 +134,7 @@ public abstract class Obstacle : MonoBehaviour {
         Vector2 vRel = vO - v;
         Vector2 vConv = Vector2.Dot(vRel, k) * k;
         Vector2 vOrth = vRel - vConv;
-        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime;
+        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime; //Paper deviation: "* Time.deltaTime" (integration) instead of "* Time.deltaTime^-1"(derivative)
         
         return alphaDerivative;
     }
@@ -225,6 +226,7 @@ public abstract class Obstacle : MonoBehaviour {
 
         float alphaThreshold = 0.1f * Time.deltaTime * Mathf.Rad2Deg;
         if (alphaDerivativeGoalAbs < alphaThreshold) {
+            //Paper deviation: if PPlus or PMinus is empty, use the smallest phi thats still gerater zero 
             if (!Mathf.Abs(phiPlus).Equals(0.0f) && !Mathf.Abs(phiMinus).Equals(0.0f)) {
                 if (Mathf.Abs(phiPlus) < Mathf.Abs(phiMinus)) {
                     return phiPlus;
@@ -245,7 +247,7 @@ public abstract class Obstacle : MonoBehaviour {
                 return phiMinus;
             }
         } else if (alphaDerivativeGoal < phiMinus || alphaDerivativeGoal > phiPlus) {
-            float alpha = getAlpha(goal);
+            float alpha = getAlpha(goal); //Paper deviation: here alphaGoal is used instead of alphaDerivativeGoal
             return alpha;
         }else{
             return -1.0f;
@@ -258,7 +260,7 @@ public abstract class Obstacle : MonoBehaviour {
             float alpha = getAlpha(point);
             float tti = getTTI(point);
             float tau1 = getTau1(tti, point);
-
+            //print("alpha: " + alpha + ", tti: " + tti + ", tau1: " + tau1 + ", alphaDerivative: " + getAlphaDerivative(point));
             if (tti > 0.0f && alpha < tau1) {
                 pCol.Add(point);
             }
