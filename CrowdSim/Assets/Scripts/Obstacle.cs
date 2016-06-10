@@ -122,7 +122,7 @@ public abstract class Obstacle : MonoBehaviour {
         Vector2 vRel = vO - v;
         Vector2 vConv = Vector2.Dot(vRel, k) * k;
         Vector2 vOrth = vRel - vConv;
-        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime; //Paper deviation: "* Time.deltaTime" (integration) instead of "* (Time.deltaTime ^ -1)"(derivative) 
+        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)); //Paper deviation: no u^-1
         return alphaDerivative;
     }
 
@@ -134,7 +134,7 @@ public abstract class Obstacle : MonoBehaviour {
         Vector2 vRel = vO - v;
         Vector2 vConv = Vector2.Dot(vRel, k) * k;
         Vector2 vOrth = vRel - vConv;
-        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)) * Time.deltaTime; //Paper deviation: "* Time.deltaTime" (integration) instead of "* Time.deltaTime^-1"(derivative)
+        float alphaDerivative = Mathf.Atan(vOrth.magnitude / (d - vConv.magnitude)); //Paper deviation: no u^-1
         
         return alphaDerivative;
     }
@@ -248,7 +248,7 @@ public abstract class Obstacle : MonoBehaviour {
             }
         } else if (alphaDerivativeGoal < phiMinus || alphaDerivativeGoal > phiPlus) {
             float alpha = getAlpha(goal); //Paper deviation: here alphaGoal is used instead of alphaDerivativeGoal
-            return alpha;
+            return alphaDerivativeGoal;
         }else{
             return -1.0f;
         }
@@ -257,7 +257,7 @@ public abstract class Obstacle : MonoBehaviour {
     protected List<Rigidbody2D> getPCol() {
         List<Rigidbody2D> pCol = new List<Rigidbody2D>();
         foreach (Rigidbody2D point in p) {
-            float alpha = getAlpha(point);
+            float alpha = getAlphaDerivative(point);
             float tti = getTTI(point);
             float tau1 = getTau1(tti, point);
             //print("alpha: " + alpha + ", tti: " + tti + ", tau1: " + tau1 + ", alphaDerivative: " + getAlphaDerivative(point));
